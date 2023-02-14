@@ -1,7 +1,7 @@
 #!/bin/bash
- 
-# List the MKV files in the current directory
-files=(*.mkv)
+
+# List the MKV files in the current directory and its subdirectories
+readarray -d '' files < <(find . -name "*.mkv" -print0)
  
 # Show the files in a numbered list
 i=1
@@ -24,11 +24,11 @@ fi
 filename=${files[$file_num-1]}
  
 # First command: mkvmerge -i $filename
-mkvmerge -i $filename
+mkvmerge -i "$filename"
  
 # Ask the user for the track number
 echo "Enter the track number:"
 read track_num
  
 # Second command: mkvextract $filename tracks $track_num:$filename.sup
-mkvextract $filename tracks $track_num:$filename.sup
+mkvextract "$filename" tracks $track_num:"$filename.sup"
